@@ -39,17 +39,25 @@ function ExpenseForm({ onCreated }: ExpenseFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mb-6 rounded-lg bg-white p-6 shadow">
-      <h2 className="mb-4 text-xl font-semibold">Add Expense</h2>
+    <form
+      onSubmit={handleSubmit}
+      className="mb-6 rounded-lg bg-white p-6 shadow dark:bg-gray-900"
+    >
+      <h2 className="mb-4 text-xl font-semibold text-gray-900 dark:text-white">
+        Add Expense
+      </h2>
 
       {error && (
-        <p className="mb-4 rounded bg-red-100 p-3 text-red-700">
+        <p className="mb-4 rounded bg-red-100 p-3 text-red-700 dark:bg-red-950 dark:text-red-300">
           {error}
         </p>
       )}
 
       <div className="mb-4">
-        <label className="mb-1 block text-sm font-medium">Amount</label>
+        <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+          Amount
+        </label>
+
         <input
           type="number"
           step="0.01"
@@ -57,27 +65,33 @@ function ExpenseForm({ onCreated }: ExpenseFormProps) {
           value={amount}
           onChange={(event) => setAmount(event.target.value)}
           required
-          className="w-full rounded border px-3 py-2"
+          className="w-full rounded border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder-gray-500"
         />
       </div>
 
       <div className="mb-4">
-        <label className="mb-1 block text-sm font-medium">Category</label>
+        <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+          Category
+        </label>
+
         <input
           type="text"
           value={category}
           onChange={(event) => setCategory(event.target.value)}
           required
-          className="w-full rounded border px-3 py-2"
+          className="w-full rounded border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder-gray-500"
         />
       </div>
 
       <div className="mb-4">
-        <label className="mb-1 block text-sm font-medium">Description</label>
+        <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
+          Description
+        </label>
+
         <textarea
           value={description}
           onChange={(event) => setDescription(event.target.value)}
-          className="w-full rounded border px-3 py-2"
+          className="w-full rounded border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder-gray-500"
           rows={3}
         />
       </div>
@@ -85,7 +99,7 @@ function ExpenseForm({ onCreated }: ExpenseFormProps) {
       <button
         type="submit"
         disabled={isLoading}
-        className="rounded bg-black px-4 py-2 text-white disabled:opacity-50"
+        className="rounded bg-black px-4 py-2 text-white hover:bg-gray-800 disabled:opacity-50 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200"
       >
         {isLoading ? 'Adding...' : 'Add Expense'}
       </button>

@@ -8,25 +8,28 @@ import Expenses from './pages/Expenses'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import PublicRoute from './components/PublicRoute'
+import { ThemeProvider } from './hooks/ThemeContext'
 
 function App() {
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route element={<PublicRoute />}>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-          </Route>
-
-          <Route element={<ProtectedRoute />}>
-            <Route element={<AppLayout />}>
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/expenses" element={<Expenses />} />
+      <ThemeProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route element={<PublicRoute />}>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
             </Route>
-          </Route>
-        </Routes>
-      </BrowserRouter>
+
+            <Route element={<ProtectedRoute />}>
+              <Route element={<AppLayout />}>
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/expenses" element={<Expenses />} />
+              </Route>
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
     </AuthProvider>
   )
 }

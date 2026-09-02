@@ -45,15 +45,16 @@ function EditExpenseForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {error && (
-        <p className="rounded bg-red-100 p-3 text-red-700">
+        <p className="rounded bg-red-100 p-3 text-red-700 dark:bg-red-950 dark:text-red-300">
           {error}
         </p>
       )}
 
       <div>
-        <label className="mb-1 block text-sm font-medium">
+        <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
           Amount
         </label>
+
         <input
           type="number"
           step="0.01"
@@ -61,32 +62,34 @@ function EditExpenseForm({
           value={amount}
           onChange={(event) => setAmount(event.target.value)}
           required
-          className="w-full rounded border px-3 py-2"
+          className="w-full rounded border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder-gray-500"
         />
       </div>
 
       <div>
-        <label className="mb-1 block text-sm font-medium">
+        <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
           Category
         </label>
+
         <input
           type="text"
           value={category}
           onChange={(event) => setCategory(event.target.value)}
           required
-          className="w-full rounded border px-3 py-2"
+          className="w-full rounded border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder-gray-500"
         />
       </div>
 
       <div>
-        <label className="mb-1 block text-sm font-medium">
+        <label className="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
           Description
         </label>
+
         <textarea
           value={description}
           onChange={(event) => setDescription(event.target.value)}
           rows={3}
-          className="w-full rounded border px-3 py-2"
+          className="w-full rounded border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder-gray-500"
         />
       </div>
 
@@ -94,7 +97,7 @@ function EditExpenseForm({
         <button
           type="submit"
           disabled={isLoading}
-          className="rounded bg-black px-4 py-2 text-white disabled:opacity-50"
+          className="rounded bg-black px-4 py-2 text-white hover:bg-gray-800 disabled:opacity-50 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-200"
         >
           {isLoading ? 'Saving...' : 'Save Changes'}
         </button>
@@ -103,7 +106,7 @@ function EditExpenseForm({
           type="button"
           onClick={onCancel}
           disabled={isLoading}
-          className="rounded border px-4 py-2 text-gray-700"
+          className="rounded border border-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-100 disabled:opacity-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
         >
           Cancel
         </button>
