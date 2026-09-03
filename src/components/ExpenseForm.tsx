@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { createExpense } from '../services/expenses'
+import { expenseCategories } from '../constants/expenseCategories'
 
 interface ExpenseFormProps {
   onCreated: () => void
@@ -74,13 +75,19 @@ function ExpenseForm({ onCreated }: ExpenseFormProps) {
           Category
         </label>
 
-        <input
-          type="text"
+        <select
+          id="category"
           value={category}
           onChange={(event) => setCategory(event.target.value)}
-          required
-          className="w-full rounded border border-gray-300 bg-white px-3 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:placeholder-gray-500"
-        />
+          className="mt-2 w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+        >
+          <option value="">Select a category</option>
+          {expenseCategories.map((expenseCategory) => (
+            <option key={expenseCategory} value={expenseCategory}>
+              {expenseCategory}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div className="mb-4">

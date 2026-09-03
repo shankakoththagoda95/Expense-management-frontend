@@ -3,17 +3,23 @@ import ExpenseForm from '../components/ExpenseForm'
 import EditExpenseForm from '../components/EditExpenseForm'
 import { deleteExpense, getExpenses } from '../services/expenses'
 import type { Expense } from '../types/expense'
+import { expenseCategories } from '../constants/expenseCategories'
+
+
+
 
 function Expenses() {
   const [expenses, setExpenses] = useState<Expense[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
   const [editingExpense, setEditingExpense] = useState<Expense | null>(null)
+  const [selectedCategory, setSelectedCategory] = useState('')
+  const [isAddExpenseOpen, setIsAddExpenseOpen] = useState(false)
 
   async function loadExpenses() {
     try {
       setError('')
-      const data = await getExpenses()
+      const data = await getExpenses(selectedCategory || undefined)
       setExpenses(data.items)
     } catch (err) {
       setError(
@@ -42,7 +48,7 @@ function Expenses() {
     async function fetchExpenses() {
       try {
         setError('')
-        const data = await getExpenses()
+        const data = await getExpenses(selectedCategory || undefined)
 
         if (isMounted) {
           setExpenses(data.items)
@@ -67,7 +73,7 @@ function Expenses() {
     return () => {
       isMounted = false
     }
-  }, [])
+  }, [selectedCategory])
 
   if (isLoading) {
     return <p className="text-gray-600 dark:text-gray-400">Loading expenses...</p>
@@ -83,7 +89,7 @@ function Expenses() {
 
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
             Expenses
@@ -92,10 +98,74 @@ function Expenses() {
           <p className="mt-2 text-gray-600 dark:text-gray-400">
             Manage your expenses here.
           </p>
+        </div>
 
-          <ExpenseForm onCreated={loadExpenses} />
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end">
+          <div>
+            <label
+              htmlFor="category-filter"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+            >
+              Filter by category
+            </label>
+
+            <select
+              id="category-filter"
+              value={selectedCategory}
+              onChange={(event) => setSelectedCategory(event.target.value)}
+              className="mt-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+            >
+              <option value="">All Categories</option>
+
+              {expenseCategories.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+          </div>
+          <button
+            type="button"
+            onClick={() => setIsAddExpenseOpen(true)}
+            className="rounded-lg bg-blue-600 px-4 py-2 font-medium text-white hover:bg-blue-700"
+          >
+            + Add Expense
+          </button>
         </div>
       </div>
+      {isAddExpenseOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="add-expense-title"
+        >
+          <div className="w-full max-w-lg rounded-xl bg-white p-6 shadow-xl dark:bg-gray-900">
+            <div className="mb-4 flex items-center justify-between">
+              <h2
+                id="add-expense-title"
+                className="text-xl font-semibold text-gray-900 dark:text-white"
+              >
+                Add Expense
+              </h2>
+              <button
+                type="button"
+                onClick={() => setIsAddExpenseOpen(false)}
+                className="text-2xl leading-none text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white"
+                aria-label="Close"
+              >
+                ×
+              </button>
+            </div>
+            <ExpenseForm
+              onCreated={async () => {
+                setIsAddExpenseOpen(false)
+                await loadExpenses()
+              }}
+            />
+          </div>
+        </div>
+      )}
       {editingExpense && (
         <div className="mb-8 rounded-xl bg-white p-6 shadow-sm dark:bg-gray-900">
           <h2 className="mb-4 text-xl font-semibold text-gray-900 dark:text-white">

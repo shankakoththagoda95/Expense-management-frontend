@@ -8,8 +8,12 @@ import type {
 
 
 
-export function getExpenses() {
-  return apiRequest<ExpenseListResponse>('/expenses')
+export function getExpenses(category?: string) {
+  const query = category
+    ? `?category=${encodeURIComponent(category)}`
+    : ''
+
+  return apiRequest<ExpenseListResponse>(`/expenses${query}`)
 }
 
 export function getExpense(expenseId: number) {
